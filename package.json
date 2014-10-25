@@ -1,0 +1,26 @@
+{
+  "name": "elo-js",
+  "version": "0.1.0",
+  "description": "Quick and dirty Elo algorithm implementation in JS.",
+  "main": "index.js",
+  "scripts": {
+    "compile": "./node_modules/es6-transpiler/build/es5/es6toes5 src/index.esnext.js tmp && cat umd_wrapper_start tmp  umd_wrapper_end > index.js && rm tmp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nicolasbrugneaux/elo-js"
+  },
+  "keywords": [
+    "Elo"
+  ],
+  "author": "Nicolas Brugneaux <nicolas.brugneaux@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nicolasbrugneaux/elo-js/issues"
+  },
+  "homepage": "https://github.com/nicolasbrugneaux/elo-js",
+  "devDependencies": {
+    "es6-transpiler": "^0.7.17"
+  }
+}
