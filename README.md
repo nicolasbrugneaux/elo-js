@@ -29,7 +29,7 @@ requireJS and browserify compatible.
   newPlayer1Rating      = elo.ifLoses( player1Rating, player2Rating );
   newPlayer1Rating      = elo.ifTies( player1Rating, player2Rating );
 </script>
-``
+```
 
 #### Node
 
