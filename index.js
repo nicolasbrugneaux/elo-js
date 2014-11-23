@@ -17,18 +17,20 @@
 /* esnext true */
 /* exported Elo */
 
-var OUTCOMES =
+var CHANCES =
 {
     lost    : 0,
     tied    : 0.5,
     won     : 1
 };
 
-// This is some magical constant used by the ELO system form wikipedia
-var PERF = 400;
-var DEFAULT_KFACTOR = 32;
+// lol magic http://en.wikipedia.org/wiki/Elo_rating_system#Mathematical_details
+var MAGIC = 400;
 
 // http://en.wikipedia.org/wiki/Elo_rating_system#Most_accurate_K-factor
+// USCF k-factors
+var DEFAULT_KFACTOR = 32;
+
 var DEFAULT_KFACTORS = function( rating )
 {
     if ( rating <= 2100 )
@@ -54,34 +56,10 @@ var Elo = (function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a
         this.maximum = typeof max !== 'undefined' ? max : Infinity;
     }DP$0(Elo,"prototype",{"configurable":false,"enumerable":false,"writable":false});
 
-    proto$0.getKFactor = function( rating )
-    {
-        if ( !isNaN( this.kFactor ) )
-        {
-            return this.kFactor;
-        }
-
-        return DEFAULT_KFACTORS( rating || 0 );
-    };
-
 
     proto$0.getMin = function()
     {
         return this.minimum;
-    };
-
-
-    proto$0.getMax = function()
-    {
-        return this.maximum;
-    };
-
-
-    proto$0.setKFactor = function( kFactor )
-    {
-        this.kFactor = kFactor || DEFAULT_KFACTOR;
-
-        return this;
     };
 
 
@@ -93,6 +71,12 @@ var Elo = (function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a
     };
 
 
+    proto$0.getMax = function()
+    {
+        return this.maximum;
+    };
+
+
     proto$0.setMax = function( maximum )
     {
         this.maximum = maximum;
@@ -101,26 +85,36 @@ var Elo = (function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a
     };
 
 
-    proto$0.expectedScore = function( rating, opponentRating )
+    proto$0.getKFactor = function( rating )
+    {
+        if ( !isNaN( this.kFactor ) )
+        {
+            return this.kFactor;
+        }
+
+        return DEFAULT_KFACTORS( rating || 0 );
+    };
+
+    proto$0.setKFactor = function( kFactor )
+    {
+        this.kFactor = kFactor || DEFAULT_KFACTOR;
+
+        return this;
+    };
+
+
+    proto$0.odds = function( rating, opponentRating )
     {
         var difference = opponentRating - rating;
 
-        return 1 / ( 1 + Math.pow( 10, difference / PERF ) );
+        return 1 / ( 1 + Math.pow( 10, difference / MAGIC ) );
     };
 
-
-    proto$0.bothExpectedScores = function( ratingOne, ratingTwo )
-    {
-        return [
-            this.expectedScore( ratingOne, ratingTwo ),
-            this.expectedScore( ratingTwo, ratingOne )
-        ];
-    };
 
     /* private-ish, should use functions below */
-    proto$0.__processRating = function( expectedScore, actualScore, previousRating )
+    proto$0.__processRating = function( odds, actualScore, previousRating )
     {
-        var difference  = actualScore - expectedScore;
+        var difference  = actualScore - odds;
         var rating      = Math.round( previousRating +
                             this.getKFactor( previousRating ) * difference );
 
@@ -139,25 +133,25 @@ var Elo = (function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a
 
     proto$0.ifWins = function( rating, opponentRating )
     {
-        var expectedScore = this.expectedScore( rating, opponentRating );
+        var odds = this.odds( rating, opponentRating );
 
-        return this.__processRating( expectedScore, OUTCOMES.won, rating );
+        return this.__processRating( odds, CHANCES.won, rating );
     };
 
 
     proto$0.ifLoses = function( rating, opponentRating )
     {
-        var expectedScore = this.expectedScore( rating, opponentRating );
+        var odds = this.odds( rating, opponentRating );
 
-        return this.__processRating( expectedScore, OUTCOMES.lost, rating );
+        return this.__processRating( odds, CHANCES.lost, rating );
     };
 
 
     proto$0.ifTies = function( rating, opponentRating )
     {
-        var expectedScore = this.expectedScore( rating, opponentRating );
+        var odds = this.odds( rating, opponentRating );
 
-        return this.__processRating( expectedScore, OUTCOMES.tied, rating );
+        return this.__processRating( odds, CHANCES.tied, rating );
     };
 MIXIN$0(Elo.prototype,proto$0);proto$0=void 0;return Elo;})();
 
