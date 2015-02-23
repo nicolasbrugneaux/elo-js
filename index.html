@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Elo-js by nicolasbrugneaux</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Elo-js</h1>
+        <h2>Quick and dirty Elo algorithm implementation in JS.</h2>
+        <a href="https://github.com/nicolasbrugneaux/elo-js" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="elo-js-" class="anchor" href="#elo-js-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Elo-js <a href="https://travis-ci.org/nicolasbrugneaux/elo-js"><img src="https://travis-ci.org/nicolasbrugneaux/elo-js.svg?branch=master" alt="Build Status"></a>
+</h1>
+
+<p>This is a small implemention of the <a href="http://en.wikipedia.org/wiki/Elo_rating_system">Elo system</a>. Based on wikipeda's information.</p>
+
+<p>Trying to use ES6 features such as class to be fancy.</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<pre><code>npm install elo-js
+</code></pre>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<h4>
+<a id="browser" class="anchor" href="#browser" aria-hidden="true"><span class="octicon octicon-link"></span></a>Browser</h4>
+
+<p>requireJS and browserify compatible.</p>
+
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s1"><span class="pl-pds">"</span>elo-js/index.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+
+<span class="pl-s2">&lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s2">  <span class="pl-s">var</span> elo <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Elo</span>();</span>
+<span class="pl-s2"></span>
+<span class="pl-s2">  <span class="pl-s">var</span> player1Rating <span class="pl-k">=</span> <span class="pl-c1">1200</span>;</span>
+<span class="pl-s2">  <span class="pl-s">var</span> player2Rating <span class="pl-k">=</span> <span class="pl-c1">1250</span>;</span>
+<span class="pl-s2"></span>
+<span class="pl-s2">  <span class="pl-s">var</span> newPlayer1Rating  <span class="pl-k">=</span> elo.ifWins( player1Rating, player2Rating );</span>
+<span class="pl-s2">  newPlayer1Rating      <span class="pl-k">=</span> elo.ifLoses( player1Rating, player2Rating );</span>
+<span class="pl-s2">  newPlayer1Rating      <span class="pl-k">=</span> elo.ifTies( player1Rating, player2Rating );</span>
+<span class="pl-s2">&lt;/<span class="pl-ent">script</span>&gt;</span></pre></div>
+
+<h4>
+<a id="node" class="anchor" href="#node" aria-hidden="true"><span class="octicon octicon-link"></span></a>Node</h4>
+
+<div class="highlight highlight-js"><pre>  <span class="pl-s">var</span> Elo <span class="pl-k">=</span> <span class="pl-s3">require</span>( <span class="pl-s1"><span class="pl-pds">'</span>elo-js<span class="pl-pds">'</span></span> );
+  <span class="pl-s">var</span> elo <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Elo</span>();
+
+  <span class="pl-s">var</span> player1Rating <span class="pl-k">=</span> <span class="pl-c1">1200</span>;
+  <span class="pl-s">var</span> player2Rating <span class="pl-k">=</span> <span class="pl-c1">1250</span>;
+
+  <span class="pl-s">var</span> newPlayer1Rating  <span class="pl-k">=</span> elo.ifWins( player1Rating, player2Rating );
+  newPlayer1Rating      <span class="pl-k">=</span> elo.ifLoses( player1Rating, player2Rating );
+  newPlayer1Rating      <span class="pl-k">=</span> elo.ifTies( player1Rating, player2Rating );</pre></div>
+
+<h2>
+<a id="contribute" class="anchor" href="#contribute" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contribute</h2>
+
+<p>Any idea, remarks? Fill an issue, drop a mail, feel free! <img class="emoji" title=":heart:" alt=":heart:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2764.png" height="20" width="20" align="absmiddle"></p>
+
+<h2>
+<a id="build-from-source" class="anchor" href="#build-from-source" aria-hidden="true"><span class="octicon octicon-link"></span></a>Build from source</h2>
+
+<div class="highlight highlight-sh"><pre>git clone https://github.com/nicolasbrugneaux/elo-js.git
+<span class="pl-s3">cd</span> elo-js
+npm install
+gulp <span class="pl-c"># watch src and runs tests</span></pre></div>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/nicolasbrugneaux/elo-js/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/nicolasbrugneaux/elo-js/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/nicolasbrugneaux/elo-js"></a> is maintained by <a href="https://github.com/nicolasbrugneaux">nicolasbrugneaux</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
