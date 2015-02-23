@@ -1,159 +1,177 @@
-( function ( root, factory )
-{
-    if ( typeof define === "function" && define.amd )
-    {
-        define(factory);
+"use strict";
+
+(function (factory) {
+    if (typeof define === "function" && define.amd) {
+        define(["exports", "module"], factory);
+    } else if (typeof exports !== "undefined" && typeof module !== "undefined") {
+        factory(exports, module);
     }
-    else if ( typeof exports === "object" )
-    {
-        module.exports = factory();
-    }
-    else
-    {
-        root.Elo = factory();
-    }
-}( this, function ()
-{
-/* esnext true */
-/* exported Elo */
+})(function (exports, module) {
+    var _defineProperty = function (obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); };
 
-var CHANCES =
-{
-    lost    : 0,
-    tied    : 0.5,
-    won     : 1
-};
+    var _prototypeProperties = function (child, staticProps, instanceProps) { if (staticProps) Object.defineProperties(child, staticProps); if (instanceProps) Object.defineProperties(child.prototype, instanceProps); };
 
-// lol magic http://en.wikipedia.org/wiki/Elo_rating_system#Mathematical_details
-var MAGIC = 400;
+    var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-// http://en.wikipedia.org/wiki/Elo_rating_system#Most_accurate_K-factor
-// USCF k-factors
-var DEFAULT_KFACTOR = 32;
+    var CHANCES = Object.freeze({
+        lost: 0,
+        tied: 0.5,
+        won: 1
+    });
 
-var DEFAULT_KFACTORS = function( rating )
-{
-    if ( rating <= 2100 )
-    {
-        return DEFAULT_KFACTOR;
-    }
-    else if ( 2100 < rating && rating <= 2400 )
-    {
-        return 24;
-    }
-    else if ( 2400 < rating )
-    {
-        return 16;
-    }
-};
+    // lol magic http://en.wikipedia.org/wiki/Elo_rating_system#Mathematical_details
+    var MAGIC = 400;
 
+    // http://en.wikipedia.org/wiki/Elo_rating_system#Most_accurate_K-factor
+    // USCF k-factors
+    var DEFAULT_KFACTOR = 32;
 
-var Elo = (function(){"use strict";var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};var proto$0={};
-    function Elo( kFactor, min, max )
-    {
-        this.setKFactor( kFactor );
-        this.minimum = typeof min !== 'undefined' ? min : -Infinity;
-        this.maximum = typeof max !== 'undefined' ? max : Infinity;
-    }DP$0(Elo,"prototype",{"configurable":false,"enumerable":false,"writable":false});
-
-
-    proto$0.getMin = function()
-    {
-        return this.minimum;
+    var DEFAULT_KFACTORS = function (rating) {
+        if (rating <= 2100) {
+            return DEFAULT_KFACTOR;
+        } else if (2100 < rating && rating <= 2400) {
+            return 24;
+        } else if (2400 < rating) {
+            return 16;
+        }
     };
 
+    var processRating = Symbol();
+    var _kFactor = Symbol();
+    var _min = Symbol();
+    var _max = Symbol();
 
-    proto$0.setMin = function( minimum )
-    {
-        this.minimum = minimum;
+    var Elo = (function () {
+        function Elo() {
+            var kFactor = arguments[0] === undefined ? DEFAULT_KFACTOR : arguments[0];
+            var min = arguments[1] === undefined ? -Infinity : arguments[1];
+            var max = arguments[2] === undefined ? Infinity : arguments[2];
 
-        return this;
-    };
+            _classCallCheck(this, Elo);
 
-
-    proto$0.getMax = function()
-    {
-        return this.maximum;
-    };
-
-
-    proto$0.setMax = function( maximum )
-    {
-        this.maximum = maximum;
-
-        return this;
-    };
-
-
-    proto$0.getKFactor = function( rating )
-    {
-        if ( !isNaN( this.kFactor ) )
-        {
-            return this.kFactor;
+            this[_kFactor] = kFactor;
+            this[_min] = min;
+            this[_max] = max;
         }
 
-        return DEFAULT_KFACTORS( rating || 0 );
-    };
+        _prototypeProperties(Elo, null, _defineProperty({
+            getMin: {
+                value: function getMin() {
+                    return this[_min];
+                },
+                writable: true,
+                configurable: true
+            },
+            setMin: {
+                value: function setMin() {
+                    var minimum = arguments[0] === undefined ? -Infinity : arguments[0];
 
-    proto$0.setKFactor = function( kFactor )
-    {
-        this.kFactor = kFactor || DEFAULT_KFACTOR;
+                    this[_min] = minimum;
 
-        return this;
-    };
+                    return this;
+                },
+                writable: true,
+                configurable: true
+            },
+            getMax: {
+                value: function getMax() {
+                    return this[_max];
+                },
+                writable: true,
+                configurable: true
+            },
+            setMax: {
+                value: function setMax() {
+                    var maximum = arguments[0] === undefined ? Infinity : arguments[0];
 
+                    this[_max] = maximum;
 
-    proto$0.odds = function( rating, opponentRating )
-    {
-        var difference = opponentRating - rating;
+                    return this;
+                },
+                writable: true,
+                configurable: true
+            },
+            getKFactor: {
+                value: function getKFactor() {
+                    var rating = arguments[0] === undefined ? 0 : arguments[0];
 
-        return 1 / ( 1 + Math.pow( 10, difference / MAGIC ) );
-    };
+                    if (!isNaN(this[_kFactor])) {
+                        return this[_kFactor];
+                    }
 
+                    return DEFAULT_KFACTORS(rating);
+                },
+                writable: true,
+                configurable: true
+            },
+            setKFactor: {
+                value: function setKFactor() {
+                    var kFactor = arguments[0] === undefined ? DEFAULT_KFACTOR : arguments[0];
 
-    /* private-ish, should use functions below */
-    proto$0.__processRating = function( odds, actualScore, previousRating )
-    {
-        var difference  = actualScore - odds;
-        var rating      = Math.round( previousRating +
-                            this.getKFactor( previousRating ) * difference );
+                    this[_kFactor] = kFactor;
 
-        if ( rating < this.minimum )
-        {
-            rating = this.minimum;
-        }
-        else if ( rating > this.maximum )
-        {
-            rating = this.maximum;
-        }
+                    return this;
+                },
+                writable: true,
+                configurable: true
+            },
+            odds: {
+                value: function odds(rating, opponentRating) {
+                    var difference = opponentRating - rating;
 
-        return rating;
-    };
+                    return 1 / (1 + Math.pow(10, difference / MAGIC));
+                },
+                writable: true,
+                configurable: true
+            },
+            ifWins: {
+                value: function ifWins(rating, opponentRating) {
+                    var odds = this.odds(rating, opponentRating);
 
+                    return this[processRating](odds, CHANCES.won, rating);
+                },
+                writable: true,
+                configurable: true
+            },
+            ifLoses: {
+                value: function ifLoses(rating, opponentRating) {
+                    var odds = this.odds(rating, opponentRating);
 
-    proto$0.ifWins = function( rating, opponentRating )
-    {
-        var odds = this.odds( rating, opponentRating );
+                    return this[processRating](odds, CHANCES.lost, rating);
+                },
+                writable: true,
+                configurable: true
+            },
+            ifTies: {
+                value: function ifTies(rating, opponentRating) {
+                    var odds = this.odds(rating, opponentRating);
 
-        return this.__processRating( odds, CHANCES.won, rating );
-    };
+                    return this[processRating](odds, CHANCES.tied, rating);
+                },
+                writable: true,
+                configurable: true
+            }
+        }, processRating, {
+            value: function (odds, actualScore, previousRating) {
+                var difference = actualScore - odds;
+                var rating = Math.round(previousRating + this.getKFactor(previousRating) * difference);
 
+                if (rating < this[_min]) {
+                    rating = this[_min];
+                } else if (rating > this[_max]) {
+                    rating = this[_max];
+                }
 
-    proto$0.ifLoses = function( rating, opponentRating )
-    {
-        var odds = this.odds( rating, opponentRating );
+                return rating;
+            },
+            writable: true,
+            configurable: true
+        }));
 
-        return this.__processRating( odds, CHANCES.lost, rating );
-    };
+        return Elo;
+    })();
 
+    module.exports = Elo;
+});
 
-    proto$0.ifTies = function( rating, opponentRating )
-    {
-        var odds = this.odds( rating, opponentRating );
-
-        return this.__processRating( odds, CHANCES.tied, rating );
-    };
-MIXIN$0(Elo.prototype,proto$0);proto$0=void 0;return Elo;})();
-
-return Elo;
-} ) );
+/* @flow */
