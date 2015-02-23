@@ -1,4 +1,4 @@
-# Elo-js
+# Elo-js [![Build Status](https://travis-ci.org/nicolasbrugneaux/elo-js.svg?branch=master)](https://travis-ci.org/nicolasbrugneaux/elo-js)
 
 This is a small implemention of the [Elo system](http://en.wikipedia.org/wiki/Elo_rating_system). Based on wikipeda's information.
 
@@ -51,9 +51,9 @@ Any idea, remarks? Fill an issue, drop a mail, feel free! :heart:
 
 ## Build from source
 
-```
+```sh
 git clone https://github.com/nicolasbrugneaux/elo-js.git
 cd elo-js
 npm install
-npm run compile
+gulp # watch src and runs tests
 ```
