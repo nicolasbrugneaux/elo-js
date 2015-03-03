@@ -1,4 +1,4 @@
-# Elo-js [![Build Status](https://travis-ci.org/nicolasbrugneaux/elo-js.svg?branch=master)](https://travis-ci.org/nicolasbrugneaux/elo-js)
+# Elo-js [![Build Status](https://travis-ci.org/nicolasbrugneaux/elo-js.svg?branch=master)](https://travis-ci.org/nicolasbrugneaux/elo-js)[![elo-js API Documentation](https://www.omniref.com/js/npm/elo-js.png)](https://www.omniref.com/js/npm/elo-js)
 
 This is a small implemention of the [Elo system](http://en.wikipedia.org/wiki/Elo_rating_system). Based on wikipeda's information.
 
